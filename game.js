@@ -77,9 +77,8 @@ function game() {
     console.log(`Player ${player_score} X ${compute_score} Computer`);
     console.log(
         player_score > compute_score ? 'Player is the WINNER!' :
-        player_score < compute_score ? 'Computer is the WINNER!' : "It's a tie! Play again!" 
+            player_score < compute_score ? 'Computer is the WINNER!' : "It's a tie! Play again!"
     );
 }
 
-console.log("Hello World");
 game();
