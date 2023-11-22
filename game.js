@@ -35,50 +35,120 @@ function playRound(playerSelection, computerSelection) {
     console.error(`Invalid options = **${playerSelection}**!`);
 }
 
-function game() {
-
-    let player_score = 0;
-    let compute_score = 0;
-
-    for (let i = 1; i <= 5; i++) {
-        console.log(`game #${i}`);
-
-        let playerSelection = prompt("Rock, Paper or Scissors? ");
-        let computerSelection = getComputerChoice();
-
-
-        let result = playRound(playerSelection, computerSelection);
-
-        console.log(`option=${playerSelection}`);
-        console.log(`result=${result}`);
-        console.log(`playerSelection=${playerSelection}`);
-        console.log(`computerSelection=${computerSelection}`);
-
-        let message;
-
-        switch (result) {
-            case 1:
-                message = `You Win! ${playerSelection} beats ${computerSelection}!`;
-                player_score++;
-                break;
-            case -1:
-                message = `You Lose! ${computerSelection} beats ${playerSelection}!`
-                compute_score++;
-                break;
-            default:
-                message = `It's a tie! Both players throw ${playerSelection}!`;
-        }
-
-        console.log(message);
-        console.log(`Player Score = ${player_score}`);
-        console.log(`Computer Score = ${compute_score}`);
-    }
-
-    console.log(`Player ${player_score} X ${compute_score} Computer`);
-    console.log(
-        player_score > compute_score ? 'Player is the WINNER!' :
-            player_score < compute_score ? 'Computer is the WINNER!' : "It's a tie! Play again!"
-    );
+function toggle() {
+    btnPlayAgain.disabled = !btnPlayAgain.disabled;
+    allButtons.forEach((button) => button.disabled = !button.disabled);
 }
 
-game();
+function restart() {
+    playerScore = 0;
+    computerScore = 0;
+    finalResult.textContent = "";
+    gameMatches.textContent = "";
+    gameScore.textContent = "";
+}
+
+// global variables
+const gameButtons = document.querySelector(".game-buttons");
+const gameMatches = document.querySelector(".game-matches");
+const gameScore = document.querySelector(".game-score");
+const btnPlayAgain = document.querySelector(".play-again");
+const finalResult = document.querySelector(".final-result");
+
+const allButtons = gameButtons.querySelectorAll("button");
+
+let playerScore = 0;
+let computerScore = 0;
+
+btnPlayAgain.addEventListener('click', () => {
+    toggle();
+    restart();
+});
+
+gameButtons.addEventListener('click', (event) => {
+
+    let playerSelection = event.target.getAttribute("game-option");
+    let computerSelection = getComputerChoice();
+    let result = playRound(playerSelection, computerSelection);
+
+    let message;
+
+    switch (result) {
+        case 1:
+            message = `You Win! ${playerSelection} beats ${computerSelection}!`;
+            playerScore++;
+            break;
+        case -1:
+            message = `You Lose! ${computerSelection} beats ${playerSelection}!`
+            computerScore++;
+            break;
+        default:
+            message = `It's a tie! Both players throw ${playerSelection}!`;
+    }
+
+    const para = document.createElement("p");
+    para.textContent = message;
+    gameMatches.appendChild(para);
+
+    console.log(message);
+    console.log(`Player Score = ${playerScore}`);
+    console.log(`Computer Score = ${computerScore}`);
+
+    gameScore.textContent = `Player ${playerScore} x ${computerScore} Computer`;
+
+    if (Math.max(playerScore, computerScore) == 5) {
+        finalResult.textContent = playerScore > computerScore ? 'Player is the WINNER!' :
+            playerScore < computerScore ? 'Computer is the WINNER!' : "It's a tie! Play again!";
+        toggle();
+
+    }
+
+});
+
+// function game() {
+
+//     let player_score = 0;
+//     let compute_score = 0;
+
+//     for (let i = 1; i <= 5; i++) {
+//         console.log(`game #${i}`);
+
+//         let playerSelection = prompt("Rock, Paper or Scissors? ");
+//         let computerSelection = getComputerChoice();
+
+
+//         let result = playRound(playerSelection, computerSelection);
+
+//         console.log(`option=${playerSelection}`);
+//         console.log(`result=${result}`);
+//         console.log(`playerSelection=${playerSelection}`);
+//         console.log(`computerSelection=${computerSelection}`);
+
+//         let message;
+
+//         switch (result) {
+//             case 1:
+//                 message = `You Win! ${playerSelection} beats ${computerSelection}!`;
+//                 player_score++;
+//                 break;
+//             case -1:
+//                 message = `You Lose! ${computerSelection} beats ${playerSelection}!`
+//                 compute_score++;
+//                 break;
+//             default:
+//                 message = `It's a tie! Both players throw ${playerSelection}!`;
+//         }
+
+//         console.log(message);
+//         console.log(`Player Score = ${player_score}`);
+//         console.log(`Computer Score = ${compute_score}`);
+//     }
+
+//     console.log(`Player ${player_score} X ${compute_score} Computer`);
+//     console.log(
+//         player_score > compute_score ? 'Player is the WINNER!' :
+//             player_score < compute_score ? 'Computer is the WINNER!' : "It's a tie! Play again!"
+//     );
+// }
+
+// game();
