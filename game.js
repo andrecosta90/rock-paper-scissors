@@ -1,7 +1,59 @@
+// Constants
+const OPTIONS = ["rock", "paper", "scissors"];
+const WINNING_SCORE = 5;
+
+// DOM Elements
+const gameButtons = document.querySelector(".game-options");
+const gameResult = document.querySelector(".game-result");
+
+const btnPlayAgain = document.querySelector(".play-again");
+const allButtons = gameButtons.querySelectorAll("button");
+
+const roundElement = document.querySelector(".round-counter");
+
+const playerOption = document.querySelector(".player-option");
+const computerOption = document.querySelector(".computer-option");
+const playerScore = document.querySelector(".player-score");
+const computerScore = document.querySelector(".computer-score");
+const gameMessage = document.querySelector(".game-message");
+
+// Game State
+let countRound = 0;
+let countPlayerScore = 0;
+let countComputerScore = 0;
+
+// Functions
+function stringToEmoji(option) {
+    switch (option) {
+        case "rock":
+            return "👊";
+        case "paper":
+            return "🫱";
+        case "scissors":
+            return "✌";
+        default:
+            throw new Error("Invalid option.");
+    }
+
+}
+
+function replaceTextContent(element, content) {
+    element.textContent = stringToEmoji(content);
+}
+
+function createStars(element, score) {
+    if (score > 0) {
+        const stars = []
+        for (let i = 0; i < score; i++) {
+            stars.push("⭐")
+        }
+        element.textContent = stars.join("");
+    }
+}
+
 function getComputerChoice() {
-    const options = ["Rock", "Paper", "Scissors"];
-    let selected_option = Math.floor(Math.random() * options.length);
-    return options[selected_option];
+    let selectedOption = Math.floor(Math.random() * OPTIONS.length);
+    return OPTIONS[selectedOption];
 }
 
 function playRound(playerSelection, computerSelection) {
@@ -41,24 +93,17 @@ function toggle() {
 }
 
 function restart() {
-    playerScore = 0;
-    computerScore = 0;
-    finalResult.textContent = "";
-    gameMatches.textContent = "";
-    gameScore.textContent = "";
+    countRound = 0;
+    countPlayerScore = 0;
+    countComputerScore = 0;
+    gameMessage.textContent = "Let's Play !?";
+    gameResult.textContent = "Who will be the winner ?";
+    playerScore.textContent = "💤";
+    computerScore.textContent = "💤";
+    roundElement.textContent = "Round # 0";
 }
 
-// global variables
-const gameButtons = document.querySelector(".game-buttons");
-const gameMatches = document.querySelector(".game-matches");
-const gameScore = document.querySelector(".game-score");
-const btnPlayAgain = document.querySelector(".play-again");
-const finalResult = document.querySelector(".final-result");
-
-const allButtons = gameButtons.querySelectorAll("button");
-
-let playerScore = 0;
-let computerScore = 0;
+// Event Listeners
 
 btnPlayAgain.addEventListener('click', () => {
     toggle();
@@ -66,89 +111,50 @@ btnPlayAgain.addEventListener('click', () => {
 });
 
 gameButtons.addEventListener('click', (event) => {
+    const gameOption = event.target.getAttribute("game-option");
+    if (!OPTIONS.includes(gameOption)) return;
 
-    let playerSelection = event.target.getAttribute("game-option");
+
+    let playerSelection = gameOption;
     let computerSelection = getComputerChoice();
     let result = playRound(playerSelection, computerSelection);
+
+    console.log(playerSelection);
+    console.log(computerSelection);
+
+    replaceTextContent(playerOption, playerSelection);
+    replaceTextContent(computerOption, computerSelection);
 
     let message;
 
     switch (result) {
         case 1:
-            message = `You Win! ${playerSelection} beats ${computerSelection}!`;
-            playerScore++;
+            message = `You Win! ${stringToEmoji(playerSelection)} beats ${stringToEmoji(computerSelection)}!`;
+            countPlayerScore++;
             break;
         case -1:
-            message = `You Lose! ${computerSelection} beats ${playerSelection}!`
-            computerScore++;
+            message = `You Lose! ${stringToEmoji(computerSelection)} beats ${stringToEmoji(playerSelection)}!`
+            countComputerScore++;
             break;
         default:
-            message = `It's a tie! Both players throw ${playerSelection}!`;
+            message = `It's a TIE ! Both players throw ${stringToEmoji(playerSelection)}!`;
     }
 
-    const para = document.createElement("p");
-    para.textContent = message;
-    gameMatches.appendChild(para);
+    gameMessage.textContent = message;
+    roundElement.textContent = `Round # ${++countRound}`;
 
     console.log(message);
-    console.log(`Player Score = ${playerScore}`);
-    console.log(`Computer Score = ${computerScore}`);
+    console.log(`Player Score = ${countPlayerScore}`);
+    console.log(`Computer Score = ${countComputerScore}`);
 
-    gameScore.textContent = `Player ${playerScore} x ${computerScore} Computer`;
+    createStars(playerScore, countPlayerScore);
+    createStars(computerScore, countComputerScore);
 
-    if (Math.max(playerScore, computerScore) == 5) {
-        finalResult.textContent = playerScore > computerScore ? 'Player is the WINNER!' :
-            playerScore < computerScore ? 'Computer is the WINNER!' : "It's a tie! Play again!";
+    if (Math.max(countPlayerScore, countComputerScore) === WINNING_SCORE) {
+        gameResult.textContent = countPlayerScore > countComputerScore ? 'Player 🌎 is the Winner ! 🏆🏆🏆' :
+            'Computer 🤖 is the Winner! 🏆🏆🏆';
         toggle();
 
     }
 
 });
-
-// function game() {
-
-//     let player_score = 0;
-//     let compute_score = 0;
-
-//     for (let i = 1; i <= 5; i++) {
-//         console.log(`game #${i}`);
-
-//         let playerSelection = prompt("Rock, Paper or Scissors? ");
-//         let computerSelection = getComputerChoice();
-
-
-//         let result = playRound(playerSelection, computerSelection);
-
-//         console.log(`option=${playerSelection}`);
-//         console.log(`result=${result}`);
-//         console.log(`playerSelection=${playerSelection}`);
-//         console.log(`computerSelection=${computerSelection}`);
-
-//         let message;
-
-//         switch (result) {
-//             case 1:
-//                 message = `You Win! ${playerSelection} beats ${computerSelection}!`;
-//                 player_score++;
-//                 break;
-//             case -1:
-//                 message = `You Lose! ${computerSelection} beats ${playerSelection}!`
-//                 compute_score++;
-//                 break;
-//             default:
-//                 message = `It's a tie! Both players throw ${playerSelection}!`;
-//         }
-
-//         console.log(message);
-//         console.log(`Player Score = ${player_score}`);
-//         console.log(`Computer Score = ${compute_score}`);
-//     }
-
-//     console.log(`Player ${player_score} X ${compute_score} Computer`);
-//     console.log(
-//         player_score > compute_score ? 'Player is the WINNER!' :
-//             player_score < compute_score ? 'Computer is the WINNER!' : "It's a tie! Play again!"
-//     );
-// }
-
-// game();

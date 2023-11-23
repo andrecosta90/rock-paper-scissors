@@ -10,27 +10,59 @@
 </head>
 
 <!-- 🫱 👊✌ -->
+
 <body>
-    <div class="game-buttons">
-        <button game-option="rock">Rock! 👊</button>
-        <button game-option="paper">Paper! 🫱</button>
-        <button game-option="scissors">Scissors! ✌</button>
+    <div class="header">
+        <div class="nav-header">
+            <p class="header-logo-text"><a href="#">Rock, Paper Scissors!</a></p>
+            <p><a href="https://en.wikipedia.org/wiki/Rock_paper_scissors" target="_blank"
+                    rel="noopener noreferrer">Rules</a></p>
+            <p><a href="https://github.com/andrecosta90/rock-paper-scissors" target="_blank"
+                    rel="noopener noreferrer">Source Code</a></p>
+        </div>
     </div>
 
-    <div>
-        <p class="final-result">
-        </p>
-        <p>
-            <button class="play-again" disabled>Play Again ?</button>
-        </p>
+    <div class="game-info">
+        <!-- <div class="game-message2">
+            Let's Play !?
+        </div> -->
+        <div class="game-result">
+            Who is poised to emerge as the ultimate victor?
+        </div>
+
     </div>
 
-    <div class="game-results">
-        <p class="game-score"></p>
+
+    <div class="game">
+        <div class="player">
+            <h1 class="player-title">Player 🌎</h1>
+            <p class="player-option">❓</p>
+            <h2 class="player-score">💤</h2>
+        </div>
+
+        <div class="middle-container">
+            <h2 class="round-counter">Round # 0</h2>
+            <h2 class="game-message">
+                Let's Play !?
+            </h2>
+            <p>
+                <button class="play-again" disabled>Play Again ?</button>
+            </p>
+        </div>
+
+        <div class="computer">
+            <h1 class="computer-title">Computer 🤖</h1>
+            <p class="computer-option">❓</p>
+            <h2 class="computer-score">💤</h2>
+        </div>
     </div>
 
-    <div class="game-matches">
+    <div class="game-options">
+        <button game-option="rock">👊</button>
+        <button game-option="paper">🫱</button>
+        <button game-option="scissors">✌</button>
     </div>
+
 
 </body>
 
