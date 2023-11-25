@@ -2,7 +2,7 @@
 
 Simple implementation of grade-school classic game _"rock paper scissors"_.
 
-# Skills
+# Languages
 
 + HTML
 + CSS (*+Flexbox*)
